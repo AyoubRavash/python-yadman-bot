@@ -3,24 +3,39 @@ from datetime import datetime
 
 
 def convert_date(jalali_str: str) -> datetime:
-    import re
-    parts = re.split(r'-', jalali_str)
-    date_part = parts[0].strip()
-    time_part = parts[1].strip() if len(parts) > 1 else '00:00:00'
+    try:
+        # Split by "-"
+        if '-' not in jalali_str:
+            raise ValueError("Date format must include '-'")
 
-    persian_months = {
-        'فروردین': 1, 'اردیبهشت': 2, 'خرداد': 3, 'تیر': 4,
-        'مرداد': 5, 'شهریور': 6, 'مهر': 7, 'آبان': 8,
-        'آذر': 9, 'دی': 10, 'بهمن': 11, 'اسفند': 12
-    }
+        date_part, time_part = jalali_str.split('-')
+        date_part = date_part.strip()
+        time_part = time_part.strip()
 
-    day, month_name, year = date_part.split()
-    day = int(day)
-    month = persian_months[month_name]
-    year = int(year)
+        # Persian month mapping
+        persian_months = {
+            'فروردین': 1, 'اردیبهشت': 2, 'خرداد': 3, 'تیر': 4,
+            'مرداد': 5, 'شهریور': 6, 'مهر': 7, 'آبان': 8,
+            'آذر': 9, 'دی': 10, 'بهمن': 11, 'اسفند': 12
+        }
 
-    hour, minute, second = map(int, time_part.split(':'))
+        # Parse date
+        day, month_name, year = date_part.split()
+        day = int(day)
+        month = persian_months.get(month_name)
+        if month is None:
+            raise ValueError("Invalid Persian month name")
+        year = int(year)
 
-    jdt = jdatetime.datetime(year, month, day, hour, minute, second)
-    gdt = jdt.togregorian()
-    return gdt
+        # Parse time
+        time_parts = time_part.split(':')
+        if len(time_parts) != 3:
+            raise ValueError("Time must be in HH:MM:SS format")
+        hour, minute, second = map(int, time_parts)
+
+        # Construct and convert
+        jdt = jdatetime.datetime(year, month, day, hour, minute, second)
+        return jdt.togregorian()
+
+    except Exception as e:
+        raise ValueError(f"Invalid date format: {e}")

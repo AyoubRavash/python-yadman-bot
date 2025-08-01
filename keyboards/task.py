@@ -6,4 +6,4 @@ def get_confirm_add_task_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text='بله ✅', callback_data='confirm_task'), InlineKeyboardButton(
             text='خیر ❌', callback_data='cancel_task')]
     ]
-    return InlineKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+    return InlineKeyboardMarkup(inline_keyboard=keyboard, resize_keyboard=True)
