@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN
-from handlers import common
+from handlers import common, add_task
 
 
 async def main():
@@ -9,6 +9,7 @@ async def main():
     dp = Dispatcher()
 
     dp.include_router(common.router)
+    dp.include_router(add_task.router)
 
     print('Bot started.')
     await dp.start_polling(bot)
