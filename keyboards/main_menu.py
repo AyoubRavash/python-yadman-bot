@@ -3,8 +3,8 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 def get_main_menu_keyboard() -> ReplyKeyboardMarkup:
     keyboard = [
-        [KeyboardButton(text='کار های من 📌')],
-        [KeyboardButton(text='افزودن کار 📝'), KeyboardButton(
+        [KeyboardButton(text='وظایف من 📌')],
+        [KeyboardButton(text='افزودن وظیفه 📝'), KeyboardButton(
             text='جست و جوی پیشرفته 🔎')],
         [KeyboardButton(text='حساب کاربری 👤'),
          KeyboardButton(text='تیم من 👥')],
