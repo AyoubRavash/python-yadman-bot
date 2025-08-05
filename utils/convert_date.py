@@ -2,7 +2,7 @@ import jdatetime
 from datetime import datetime
 
 
-def convert_date(jalali_str: str) -> datetime:
+def convert_date_to_global(jalali_str: str) -> datetime:
     try:
         # Split by "-"
         if '-' not in jalali_str:
@@ -39,3 +39,20 @@ def convert_date(jalali_str: str) -> datetime:
 
     except Exception as e:
         raise ValueError(f"Invalid date format: {e}")
+
+
+def convert_datetime_to_jalali(gregorian_dt: datetime) -> str:
+    jdt = jdatetime.datetime.fromgregorian(datetime=gregorian_dt)
+    persian_months = [
+        '',  # index 0 unused
+        'فروردین', 'اردیبهشت', 'خرداد', 'تیر',
+        'مرداد', 'شهریور', 'مهر', 'آبان',
+        'آذر', 'دی', 'بهمن', 'اسفند'
+    ]
+
+    day = jdt.day
+    month_name = persian_months[jdt.month]
+    year = jdt.year
+    time_str = f"{jdt.hour:02d}:{jdt.minute:02d}:{jdt.second:02d}"
+
+    return f"{day} {month_name} {year}-{time_str}"

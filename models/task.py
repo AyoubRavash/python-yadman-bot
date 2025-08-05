@@ -1,6 +1,4 @@
 from datetime import datetime
-from utils.convert_date import convert_date
-
 
 class Task:
     def __init__(self, title: str, description: str, start_date: datetime, end_date: datetime, user_id: int):

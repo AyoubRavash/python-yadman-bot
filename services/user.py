@@ -34,17 +34,21 @@ async def insert_user(data: User) -> int:
         raise  # Or handle differently
 
 
-async def get_user(telegram_id: int) -> int | None:
+async def get_user_db(telegram_id: int) -> User | None:
     try:
         with connect(host=DB_HOST, database=DB_NAME, port=DB_PORT, user=DB_USER, password=DB_PASS) as conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    SELECT id FROM users WHERE telegram_id = %s
+                    SELECT * FROM users WHERE telegram_id = %s
                     """,
                     (telegram_id,)
                 )
                 result = cur.fetchone()
+                if result[0] is not None:
+                    return User(result[1], result[2], result[3], result[4], result[5], id=result[0])
+                else:
+                    return None
             conn.commit()
             return result[0] if result else None
 

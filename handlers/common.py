@@ -2,7 +2,7 @@ from aiogram import types, Router
 from aiogram.filters import Command
 from psycopg2.errors import UniqueViolation
 
-from keyboards.main_menu import get_main_menu_keyboard
+from keyboards.common import get_main_menu_keyboard
 from services.user import insert_user
 from models.user import User
 
