@@ -14,6 +14,6 @@ def get_account_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text='💠 نام', callback_data='edit_account_firstname'), InlineKeyboardButton(
             text='💠 نام خانوادگی', callback_data='edit_account_lastname')],
         [InlineKeyboardButton(
-            text='📅 تاریخ تولد', callback_data='edit_account_birthday')]
+            text='📅 تاریخ تولد', callback_data='edit_account_birthdate')]
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard, resize_keyboard=True)
