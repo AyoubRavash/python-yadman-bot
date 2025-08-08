@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+# python cache
+__pycache__
+
+# vs code config
+.vscode
+
+# bot configs
+config.py
+
+=======
+>>>>>>> ca9f97dd766d40c6776e656ac169457b0c23eb0b
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -204,4 +216,8 @@ cython_debug/
 # Marimo
 marimo/_static/
 marimo/_lsp/
+<<<<<<< HEAD
 __marimo__/
+=======
+__marimo__/
+>>>>>>> ca9f97dd766d40c6776e656ac169457b0c23eb0b
