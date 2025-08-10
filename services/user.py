@@ -46,12 +46,11 @@ async def get_user_db(telegram_id: int) -> User | None:
                     (telegram_id,)
                 )
                 result = cur.fetchone()
-                if result[0] is not None:
+                if result is not None:
                     return User(id=result[0], telegram_id=result[1], first_name=result[2], last_name=result[3], username=result[4], birth_date=result[5], joined_at=result[6])
                 else:
                     return None
             conn.commit()
-            return result[0] if result else None
 
     except Exception as e:
         print(e)
