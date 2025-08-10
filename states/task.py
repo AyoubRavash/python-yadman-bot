@@ -7,3 +7,6 @@ class AddTaskState(StatesGroup):
     start_date = State()
     end_date = State()
     user_id = State()
+
+class GetTaskState(StatesGroup):
+    id = State()

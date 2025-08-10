@@ -55,17 +55,10 @@ async def get_tasks_db(user_id: int, page: int = 1) -> tuple[list, int] | None:
                 )
                 rows = cur.fetchall()
 
-                # تبدیل به دیکشنری
                 tasks = []
                 for row in rows:
-                    task = {
-                        'id': row[0],
-                        'title': row[1],
-                        'description': row[2],
-                        'start_date': row[3],
-                        'end_date': row[4],
-                        'is_done': row[5],
-                    }
+                    task = Task(id=row[0], title=row[1], description=row[2],
+                                start_date=row[3], end_date=row[4], is_done=row[5])
                     tasks.append(task)
 
             total_pages = ceil(total_count / limit) if total_count else 1
@@ -74,5 +67,32 @@ async def get_tasks_db(user_id: int, page: int = 1) -> tuple[list, int] | None:
     except Exception as e:
         print(e)
         return None
+    finally:
+        conn.close()
+
+
+async def get_task_db(task_id: int) -> Task | None:
+    try:
+        with connect(host=DB_HOST, database=DB_NAME, port=DB_PORT, user=DB_USER, password=DB_PASS) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id, title, description, start_date, end_date, is_done 
+                    FROM tasks WHERE id = %s
+                    """,
+                    (task_id,)
+                )
+                row = cur.fetchone()
+                if row is not None:
+                    return Task(id=row[0], title=row[1], description=row[2],
+                                start_date=row[3], end_date=row[4], is_done=row[5])
+                else:
+                    return None
+            conn.commit()
+
+    except Exception as e:
+        print(e)
+        return None
+
     finally:
         conn.close()
