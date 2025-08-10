@@ -82,8 +82,8 @@ async def handle_end_date(msg: types.Message, state: FSMContext):
 async def handle_confirmation(callback_query: types.CallbackQuery, state: FSMContext):
     if callback_query.data == 'confirm_task':
         data = await state.get_data()
-        task = Task(data['title'], data['description'],
-                    data['start_date'], data['end_date'], data['user_id'])
+        task = Task(title=data['title'], description=data['description'],
+                    start_date=data['start_date'], end_date=data['end_date'], user_id=data['user_id'])
 
         result = await insert_task_db(task)
         if result is None:
