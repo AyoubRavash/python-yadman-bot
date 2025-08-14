@@ -25,11 +25,11 @@ def get_tasks_pagination_keyboard(current_page: int, total_pages: int, user_id: 
     ])
 
 
-def get_task_keyboard(current_status: bool) -> InlineKeyboardMarkup:
+def get_task_keyboard(current_status: bool, task_id: int) -> InlineKeyboardMarkup:
     buttons = [
-        [InlineKeyboardButton(text='حذف ❌', callback_data='task_delete'), InlineKeyboardButton(
-            text='ویرایش ✏️', callback_data='task_edit')],
+        [InlineKeyboardButton(text='حذف ❌', callback_data=f'task_delete_{task_id}'), InlineKeyboardButton(
+            text='ویرایش ✏️', callback_data=f'task_edit_{task_id}')],
         [InlineKeyboardButton(
-            text=f'تغییر وضعیت به {'انجام شده 🙂' if current_status == False else 'انجام نشده ☹️'}', callback_data='task_status')]
+            text=f'تغییر وضعیت به {'انجام شده 🙂' if current_status == False else 'انجام نشده ☹️'}', callback_data=f'task_change_status_{task_id}')]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
