@@ -1,7 +1,7 @@
 from aiogram import types, Router
 from aiogram.fsm.context import FSMContext
 
-from services.task import get_tasks_db, get_task_db
+from services.task import get_tasks_db, get_task_db, delete_task_db
 from services.user import get_user_db
 from utils.const_values import error_message
 from utils.task import get_tasks_text, get_task_text
@@ -73,4 +73,15 @@ async def get_task_handler(msg: types.Message, state: FSMContext):
     await state.clear()
     start_date = convert_datetime_to_jalali(task.start_date)
     end_date = convert_datetime_to_jalali(task.end_date)
-    await msg.reply(get_task_text(task.title, task.description, start_date, end_date, is_done=task.is_done), reply_markup=get_task_keyboard(task.is_done))
+    await msg.reply(get_task_text(task.title, task.description, start_date, end_date, is_done=task.is_done), reply_markup=get_task_keyboard(task.is_done, task.id))
+
+
+@router.callback_query(lambda c: c.data and c.data.startswith('task_delete'))
+async def delete_task(callback_query: types.CallbackQuery):
+    task_id = int(callback_query.data.split('_')[2])
+    result = await delete_task_db(task_id)
+    if (result == False):
+        await callback_query.message.answer(error_message, show_alert=True)
+        return
+
+    await callback_query.message.answer('وظیفه با موفقیت حذف شد 🎉', show_alert=True)
