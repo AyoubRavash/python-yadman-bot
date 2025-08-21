@@ -11,7 +11,7 @@ router = Router(name='common')
 
 @router.message(Command('start'))
 async def cmd_start(msg: types.Message):
-    await msg.answer('سلام. به یادمان خوش آمدید 👋 در حال احراز هویت  شما...', reply_markup=get_main_menu_keyboard())
+    await msg.answer('سلام. به یادمان خوش آمدید 👋 در حال احراز هویت شما...', reply_markup=get_main_menu_keyboard())
     user = User(
         msg.from_user.id,
         msg.from_user.first_name or "",
