@@ -97,6 +97,7 @@ async def get_task_db(task_id: int) -> Task | None:
     finally:
         conn.close()
 
+
 async def delete_task_db(task_id: int) -> bool:
     try:
         with connect(host=DB_HOST, database=DB_NAME, port=DB_PORT, user=DB_USER, password=DB_PASS) as conn:
@@ -104,6 +105,23 @@ async def delete_task_db(task_id: int) -> bool:
                 cur.execute(
                     """
                     DELETE FROM tasks WHERE id = %s
+                    """,
+                    (task_id,)
+                )
+                conn.commit()
+                return cur.rowcount > 0
+    except Exception as e:
+        print(e)
+        return False
+
+
+async def change_status_db(task_id: int) -> bool:
+    try:
+        with connect(host=DB_HOST, database=DB_NAME, port=DB_PORT, user=DB_USER, password=DB_PASS) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE tasks SET is_done = NOT is_done WHERE id = %s
                     """,
                     (task_id,)
                 )

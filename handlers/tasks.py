@@ -1,7 +1,7 @@
 from aiogram import types, Router
 from aiogram.fsm.context import FSMContext
 
-from services.task import get_tasks_db, get_task_db, delete_task_db
+from services.task import get_tasks_db, get_task_db, delete_task_db, change_status_db
 from services.user import get_user_db
 from utils.const_values import error_message
 from utils.task import get_tasks_text, get_task_text
@@ -85,3 +85,13 @@ async def delete_task(callback_query: types.CallbackQuery):
         return
 
     await callback_query.message.answer('وظیفه با موفقیت حذف شد 🎉', show_alert=True)
+
+@router.callback_query(lambda c: c.data and c.data.startswith('task_change_status'))
+async def delete_task(callback_query: types.CallbackQuery):
+    task_id = int(callback_query.data.split('_')[3])
+    result = await change_status_db(task_id)
+    if (result == False):
+        await callback_query.message.answer(error_message, show_alert=True)
+        return
+
+    await callback_query.message.answer('وظیفه با موفقیت تغییر وضعیت یافت 🎉', show_alert=True)
