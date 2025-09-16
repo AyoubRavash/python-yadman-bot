@@ -5,8 +5,8 @@ from services.task import get_tasks_db, get_task_db, delete_task_db, change_stat
 from services.user import get_user_db
 from utils.const_values import error_message
 from utils.task import get_tasks_text, get_task_text
-from keyboards.task import get_tasks_pagination_keyboard, get_task_keyboard
-from states.task import GetTaskState
+from keyboards.task import get_tasks_pagination_keyboard, get_task_keyboard, get_task_fields_keyboard
+from states.task import GetTaskState, EditTaskState
 from utils.convert_date import convert_datetime_to_jalali
 
 router = Router(name='tasks')
@@ -86,6 +86,7 @@ async def delete_task(callback_query: types.CallbackQuery):
 
     await callback_query.message.answer('وظیفه با موفقیت حذف شد 🎉', show_alert=True)
 
+
 @router.callback_query(lambda c: c.data and c.data.startswith('task_change_status'))
 async def delete_task(callback_query: types.CallbackQuery):
     task_id = int(callback_query.data.split('_')[3])
@@ -95,3 +96,11 @@ async def delete_task(callback_query: types.CallbackQuery):
         return
 
     await callback_query.message.answer('وظیفه با موفقیت تغییر وضعیت یافت 🎉', show_alert=True)
+
+
+@router.callback_query(lambda c: c.data and c.data.startswith('task_edit'))
+async def edit_task(callback_query: types.CallbackQuery):
+    task_id = int(callback_query.data.split('_')[2])
+    await callback_query.message.edit_text('یکی از گزینه های زیر را انتخاب کنید 👇', reply_markup=get_task_fields_keyboard(task_id))
+
+# @router.callback_query(lambda c: c.data and c.data.startswith('t'))

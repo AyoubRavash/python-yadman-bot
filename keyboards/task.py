@@ -33,3 +33,16 @@ def get_task_keyboard(current_status: bool, task_id: int) -> InlineKeyboardMarku
             text=f'تغییر وضعیت به {'انجام شده 🙂' if current_status == False else 'انجام نشده ☹️'}', callback_data=f'task_change_status_{task_id}')]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def get_task_fields_keyboard(task_id: int) -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton(text='💠نام', callback_data=f'task_edit_title_{task_id}'), InlineKeyboardButton(
+            text='💠توضیحات', callback_data=f'task_edit_description_{task_id}')],
+        [
+            InlineKeyboardButton(text='📅تاریخ شروع',
+                                 callback_data=f'task_edit_startdate_{task_id}'),
+            InlineKeyboardButton(text='📅تاریخ پایان',
+                                 callback_data=f'task_edit_enddate_{task_id}'),
+        ]
+    ]

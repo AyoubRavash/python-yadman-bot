@@ -130,3 +130,28 @@ async def change_status_db(task_id: int) -> bool:
     except Exception as e:
         print(e)
         return False
+
+
+async def update_task_field_db(task_id: int, field: str, value):
+    if field == 'startdate':
+        db_field = 'start_date'
+    elif field == 'enddate':
+        db_field = 'end_date'
+    else:
+        db_field = field
+
+    try:
+        with connect(host=DB_HOST, database=DB_NAME, port=DB_PORT, user=DB_USER, password=DB_PASS) as conn:
+            with conn.cursor() as cur:
+                query = f"UPDATE tasks SET {db_field} = %s WHERE id = %s"
+                cur.execute(query, (value, task_id))
+                conn.commit()
+                return cur.rowcount > 0
+    except Exception as e:
+        print("Error updating task field:", e)
+        return False
+    finally:
+        try:
+            conn.close()
+        except:
+            pass

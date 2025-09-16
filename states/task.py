@@ -10,3 +10,7 @@ class AddTaskState(StatesGroup):
 
 class GetTaskState(StatesGroup):
     id = State()
+
+class EditTaskState(StatesGroup):
+    field_name = State()
+    field_value = State()
